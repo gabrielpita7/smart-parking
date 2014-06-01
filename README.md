@@ -7,9 +7,9 @@ Professor: Eduardo Santana - DCC UFBA
 
 Funções:
 
-1. Gerente de Projetos: Guilherme Araujo
+1. Gerente de Projeto: Guilherme Araujo
 
-2. Analista do Sistema: Gabriel Pita
+2. Analista de Sistemas: Gabriel Pita
 
 3. Gerente de Configuração: Bruno Pagliarini
 
