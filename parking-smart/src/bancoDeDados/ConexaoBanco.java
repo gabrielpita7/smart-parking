@@ -5,7 +5,7 @@ import java.sql.*;
 import javax.swing.JOptionPane;  
 
 /**
- * @author Caveira
+ * @author Smart Parking
  * @version 1.0
  */
 public class ConexaoBanco {

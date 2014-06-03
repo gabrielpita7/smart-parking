@@ -134,7 +134,7 @@ public class ControleVagas {
         try {
             conexaoBanco = new ConexaoBanco();
             statement = conexaoBanco.conexao.createStatement();
-            insert = "INSERT INTO estacionamento.historico(nomeUsuario_historico, codigoVaga_historico, data_historico, horario_historico) VALUES (";
+            insert = "INSERT INTO estacionamento.historico(nomeUsuario_historico, codigoVaga_historico, data_historico, horario_entrada_historico) VALUES (";
             insert = insert + "'" + Constantes.usuarioAtivo + "', ";
             insert = insert + "'" + codigoVaga + "', ";
             insert = insert + "'" + dataAtual.format(data) + "', ";

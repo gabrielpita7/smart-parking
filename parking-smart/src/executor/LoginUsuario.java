@@ -20,7 +20,7 @@ import model.UsuarioEstacionamento;
 
 /**
  *
- * @author Caveira
+ * @author Smart Parking
  * @version 1.0
  */
 public class LoginUsuario extends javax.swing.JFrame {

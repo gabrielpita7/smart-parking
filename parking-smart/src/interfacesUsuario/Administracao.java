@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import usoGeral.Constantes;
 
 /**
- * @author Caveira
+ * @author Smart Parking
  * @version 1.0
  */
 public class Administracao extends javax.swing.JFrame {

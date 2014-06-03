@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import model.ControleVagas;
 
 /**
- * @author Caveira
+ * @author Smart Parking
  * @version 1.0
  */
 public class CadastroUsuario extends javax.swing.JFrame {

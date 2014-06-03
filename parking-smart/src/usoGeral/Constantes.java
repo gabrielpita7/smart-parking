@@ -9,7 +9,7 @@ import model.UsuarioEstacionamento;
 
 /**
  *
- * @author Guilherme
+ * @author Smart Parking
  */
 public final class Constantes {
     public static String usuarioAtivo;

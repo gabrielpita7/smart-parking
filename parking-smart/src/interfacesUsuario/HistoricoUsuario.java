@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- * @author Caveira
+ * @author Smart Parking
  * @version 1.0
  */
 public class HistoricoUsuario extends javax.swing.JFrame {
@@ -191,19 +191,21 @@ public class HistoricoUsuario extends javax.swing.JFrame {
             statement = conexaoBanco.conexao.createStatement();
             result = statement.executeQuery("SELECT * FROM Historico WHERE nomeUsuario_historico = '" + nomeUsuario + "'");
             
-            PdfPTable table = new PdfPTable(3);
+            PdfPTable table = new PdfPTable(4);
             PdfPCell header = new PdfPCell(new Paragraph("Histórico de Vaga por usuário"));
-            header.setColspan(3);
+            header.setColspan(4);
             table.addCell(header);
             
             table.addCell("             Vaga");
             table.addCell("    Data de Entrada");
             table.addCell("  Horário de Entrada");
+            table.addCell("  Horário de Saída");
             
             while (result.next()){
                 table.addCell(result.getString("CodigoVaga_historico"));
                 table.addCell(result.getString("data_historico"));
-                table.addCell(result.getString("horario_historico"));
+                table.addCell(result.getString("horario_entrada_historico"));
+                table.addCell(result.getString("horario_saida_historico"));
             }
             
             documento.add(table); 

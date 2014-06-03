@@ -42,7 +42,7 @@ import usoGeral.Constantes;
 import model.ControleVagas;
 
 /**
- * @author Caveira
+ * @author Smart Parking
  * @version 1.0
  */
 
@@ -189,19 +189,21 @@ public class Estacionamento extends JPanel {
             statement = conexaoBanco.conexao.createStatement();
             result = statement.executeQuery("select * from historico where codigoVaga_historico = '" + codigoVaga + "'");
             
-            PdfPTable table = new PdfPTable(3);
+            PdfPTable table = new PdfPTable(4);
             PdfPCell header = new PdfPCell(new Paragraph("Histórico de Vaga"));
-            header.setColspan(3);
+            header.setColspan(4);
             table.addCell(header);
             
             table.addCell("             Nome");
             table.addCell("    Data de Entrada");
             table.addCell("  Horário de Entrada");
+            table.addCell("  Horário de Saída");
             
             while (result.next()){
                 table.addCell(result.getString("nomeUsuario_historico"));
                 table.addCell(result.getString("data_historico"));
-                table.addCell(result.getString("horario_historico"));
+                table.addCell(result.getString("horario_entrada_historico"));
+                table.addCell(result.getString("horario_saida_historico"));
             }
             
             documento.add(table); 

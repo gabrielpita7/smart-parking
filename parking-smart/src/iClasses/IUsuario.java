@@ -6,7 +6,7 @@ package iClasses;
 
 /**
  *
- * @author Caveira
+ * @author Smart Parking
  */
 public interface IUsuario {
     public void setNome(String nome);

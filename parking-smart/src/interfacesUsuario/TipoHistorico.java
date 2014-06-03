@@ -5,7 +5,7 @@
 package interfacesUsuario;
 
 /**
- * @author Caveira
+ * @author Smart Parking
  * @version 1.0
  */
 public class TipoHistorico extends javax.swing.JFrame {
