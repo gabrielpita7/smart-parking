@@ -24,6 +24,9 @@ public final class Constantes {
     public static boolean adminAtivo;
     public static boolean usuarioDeficiente;
     public static final LinkedList<UsuarioEstacionamento> filaEstacionamento = new LinkedList<>();
+    public static int vagasHorizontais;
+    public static int vagasVerticais;
+    public static int vagasPreferenciais;
     
     public static String formatarCodigoVaga(int tamanho, String valor){
         // Formatar o código da vaga => ex: 0102

@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * @author Caveira
+ * @author Smart-Parking
  * @version 1.0
  */
 public class TesteValidadores {

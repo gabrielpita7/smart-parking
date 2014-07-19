@@ -54,6 +54,7 @@ public class Administracao extends javax.swing.JFrame {
         CadastrarUsuario = new javax.swing.JButton();
         Preferencial = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        Vagas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Administração");
@@ -91,7 +92,7 @@ public class Administracao extends javax.swing.JFrame {
             }
         });
 
-        CadastrarUsuario.setText("Cadastrar Usuário");
+        CadastrarUsuario.setText("Usuário");
         CadastrarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 CadastrarUsuarioMouseClicked(evt);
@@ -107,33 +108,52 @@ public class Administracao extends javax.swing.JFrame {
 
         jLabel3.setText("Preferenciais");
 
+        Vagas.setText("Vagas");
+        Vagas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                VagasMouseClicked(evt);
+            }
+        });
+        Vagas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                VagasKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Vagas, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CadastrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Historico, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(VagasOcupadas, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(VagasRestantes, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(VagasRestantes))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(Preferencial, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(CadastrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Historico)
-                        .addGap(5, 5, 5)
-                        .addComponent(Voltar)))
+                            .addComponent(Preferencial, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {CadastrarUsuario, Historico, Vagas});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -151,7 +171,8 @@ public class Administracao extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Voltar)
                     .addComponent(Historico)
-                    .addComponent(CadastrarUsuario))
+                    .addComponent(CadastrarUsuario)
+                    .addComponent(Vagas))
                 .addContainerGap())
         );
 
@@ -187,6 +208,16 @@ public class Administracao extends javax.swing.JFrame {
             this.chamarCadastroUsuario();
         }
     }//GEN-LAST:event_CadastrarUsuarioKeyPressed
+
+    private void VagasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_VagasKeyPressed
+        if (evt.getKeyCode() == 10){
+            this.chamarManutencaoVagas();
+        }
+    }//GEN-LAST:event_VagasKeyPressed
+
+    private void VagasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VagasMouseClicked
+        this.chamarManutencaoVagas();
+    }//GEN-LAST:event_VagasMouseClicked
     
     private void chamarHistorico (){
         TipoHistorico tipoHistorico = new TipoHistorico();
@@ -206,10 +237,17 @@ public class Administracao extends javax.swing.JFrame {
         this.dispose();  
     }
     
+    private void chamarManutencaoVagas (){
+        ManutencaoVagas manutencaoVagas = new ManutencaoVagas();
+        manutencaoVagas.show();
+        this.dispose();  
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CadastrarUsuario;
     private javax.swing.JButton Historico;
     private javax.swing.JTextField Preferencial;
+    private javax.swing.JButton Vagas;
     private javax.swing.JTextField VagasOcupadas;
     private javax.swing.JTextField VagasRestantes;
     private javax.swing.JButton Voltar;

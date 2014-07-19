@@ -57,12 +57,37 @@ public class Estacionamento extends JPanel {
     private ResultSet result;
 
     public Estacionamento() {
+        
+        int preferenciais, i, j;
+        
+        this.buscarDimensoes();
+        
+        String[] columns = new String[Constantes.vagasHorizontais];
+        String[][] data = new String[Constantes.vagasVerticais][Constantes.vagasHorizontais];
+        
+        preferenciais = Constantes.vagasPreferenciais;
+        
+        for (i = 0; i < Constantes.vagasHorizontais; i++){
+            columns[i] = "SETOR " + i;
+        }
+        
+        for (j = 0; j < Constantes.vagasHorizontais; j++){
+            for (i = 0; i < Constantes.vagasVerticais; i++){
+                if (preferenciais > 0) {
+                    data[i][j] = "PREFERENCIAL";
+                    preferenciais--;
+                }
+                else{
+                    data[i][j] = "DISPONIVEL";
+                }
+            }
+        }
+                
+        //String[] columns = {"SETOR 1", "SETOR 2", "SETOR 3"};
 
-        String[] columns = {"SETOR 1", "SETOR 2", "SETOR 3"};
-
-        String[][] data = {{"PREFERENCIAL", "PREFERENCIAL", "DISPONIVEL"},
+        /*String[][] data = {{"PREFERENCIAL", "PREFERENCIAL", "DISPONIVEL"},
             {"DISPONIVEL", "DISPONIVEL", "DISPONIVEL"},
-            {"DISPONIVEL", "DISPONIVEL", "DISPONIVEL"}};
+            {"DISPONIVEL", "DISPONIVEL", "DISPONIVEL"}};*/
 
         gridVagas = new JTable(data, columns) {
             public boolean isCellEditable(int data, int columns) {
@@ -136,7 +161,7 @@ public class Estacionamento extends JPanel {
             frame = new JFrame("Escolha sua vaga");
         }
       
-        frame.setSize(500, 87);
+        frame.setSize(166 * Constantes.vagasHorizontais, 18 * Constantes.vagasVerticais);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -301,5 +326,34 @@ public class Estacionamento extends JPanel {
         }
     }
 
-    
+    private void buscarDimensoes () {
+        try {
+            conexaoBanco = new ConexaoBanco();
+            statement = conexaoBanco.conexao.createStatement();
+            result = statement.executeQuery("select * from vagas where ID_Vagas = 1");
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(LoginUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            while (result.next()){
+                Constantes.vagasHorizontais = Integer.parseInt(result.getString("Largura_Vagas"));
+                Constantes.vagasVerticais = Integer.parseInt(result.getString("Altura_Vagas"));
+                Constantes.vagasPreferenciais = Integer.parseInt(result.getString("Total_Preferencial_Vagas"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null,"Ocoreu um problema no método preencherVagasResiduais. " + e.getMessage());
+        }
+        finally{
+            try {
+                if (!statement.isClosed()){
+                    statement.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ControleVagas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    } 
 }
