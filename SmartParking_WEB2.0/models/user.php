@@ -1,11 +1,12 @@
 <?php require_once "database.php";
 Class User {
 	
-	protected static $db_fields = array ('ID_Usuario','Nome_Usuario','CPF_Usuario','CodigoAcesso_Usuario','Deficiente_Usuario','Tipo_Usuario','Cargo_Usuario','Senha_Usuario','CodigoVaga_Usuario');
+	protected static $db_fields = array ('ID_Usuario','Nome_Usuario','Email_Usuario','CPF_Usuario','CodigoAcesso_Usuario','Deficiente_Usuario','Tipo_Usuario','Cargo_Usuario','Senha_Usuario','CodigoVaga_Usuario');
 	
 	public static $table_name = "usuarios";
 	public $ID_Usuario;
 	public $Nome_Usuario;
+	public $Email_Usuario;
 	public $CPF_Usuario;
 	public $CodigoAcesso_Usuario;
 	public $Deficiente_Usuario;
@@ -27,15 +28,21 @@ $user=self::find_by_id($id); ?>
                 $senha1 = mysql_real_escape_string ($_POST['senha1']);
                 $senha2 = mysql_real_escape_string ($_POST['senha2']);
                 
-                
                 if($senha1 != $senha2) {
                     $_SESSION['error']="Por Favor, Digite as senhas iguais";                                        
                     header ("location: ../views/user.php");
                     exit();                    
                 }
+                else if($senhaAtual!=$user->Senha_Usuario){
+                	$_SESSION['error']="Senha Atual incorreta!";                                        
+                    header ("location: ../views/user.php");
+                    exit();  
+                }
                 else {
-                    $_SESSION['mensagem'] = true;
-                    header ("location: ../views/index.php");
+                    $_SESSION['mensagemSucesso'] = "Senha Alterada com Sucesso";
+                    $user->Senha_Usuario =  $senha1;
+                    $user->update();               
+                    header ("location: ../views/user.php");
                     exit();                    
                 }
                 
@@ -43,10 +50,15 @@ $user=self::find_by_id($id); ?>
             <form id="editForm" method="post" class="form-horizontal">
 				<?php 
                 if(isset($_SESSION['error'])){ ?>                           
-                   <div class="alert alert-danger">
+                   <div class="alert alert-success">
                         <?php echo $_SESSION['error']; ?>
                     </div> 
-                <?php unset($_SESSION['error']); } ?>
+                <?php unset($_SESSION['error']); } 
+                if(isset($_SESSION['mensagemSucesso'])){ ?>                           
+                   <div class="alert alert-danger">
+                        <?php echo $_SESSION['mensagemSucesso']; ?>
+                    </div> 
+                <?php unset($_SESSION['mensagemSucesso']); } ?>
                        
                     <div class="form-group">
                         <div class="col-lg-6"> 
@@ -120,7 +132,7 @@ $user=self::find_by_id($id); ?>
 				</div>
 				<div class="col-md-8">
 					Está Estacionado? <?php $codigoVaga = $user->CodigoVaga_Usuario; $estacionado=false;
-					 if(empty($codigoVaga) || $codigoVaga!=" "){ echo "Sim" ; $estacionado=true;} else{ echo "Não"; $estacionado=false;} ?>
+					 if(!empty($codigoVaga) && $codigoVaga!=" "){ echo "Sim" ; $estacionado=true;} else{ echo "Não"; $estacionado=false;} ?>
 				</div>
 			</div>
 
@@ -143,28 +155,78 @@ $user=self::find_by_id($id); ?>
 		</div>
 	</div>
 
-<?php } 
+<?php }
 
+public static function numberVagas(){
+	$users = self::find_all();
+	$count=0;
+	foreach ($users as $user) {
+		if(($user->CodigoVaga_Usuario != " ")&&($user->Deficiente_Usuario=="N")){
+			$count++;
+		}
+	}
 
-public static function profile($id){
-	$user=self::find_by_id($id);	
-
+	return $count;
 }
 
-	public static function setId($nome){
+public static function numberVagasDeficiente(){
+	$users = self::find_all();
+	$count=0;
+	foreach ($users as $user) {
+		if(($user->CodigoVaga_Usuario != " ")&&($user->Deficiente_Usuario=="S")){
+			$count++;
+		}
+	}
+
+	return $count;
+} 
+
+public static function getSenha($login){
+	$user = self::find_by_login($login);
+	$senha = $user[0]->Senha_Usuario;
+	//$senha = $user[0]->Senha_Usuario;
+	return $senha;
+}
+
+public static function getName($login){
+	$user = self::find_by_login($login);
+	$nome = $user[0]->Nome_Usuario;
+	//$senha = $user[0]->Senha_Usuario;
+	return $nome;
+}
+
+public static function getCodigoVaga($id){
+	$user=self::find_by_id($id);
+	return $user->CodigoVaga_Usuario;
+}
+
+public static function setId($nome){
 		$user=self::find_by_name($nome);
 		echo $user->nome;
 		echo $nome;
 	}
 
+public static function compareEmail($login,$email){
+	$user = self::find_by_login($login);
+	$user2 = self::find_by_email($email);
+	$id = $user[0]->ID_Usuario;
+	$id2 = $user2[0]->ID_Usuario;
+	if($id===$id2 && $id!="" && $id!= ""){
+		return true;
+	}else{
+		return false;
+	}
+	
+}
+	
 /*DATABASE	*/
-	public static function find_by_name($nome=""){
-		$result_array = self::find_by_sql("SELECT * FROM ".self::$table_name." WHERE Nome_Usuario='{$nome}' ");
+	public static function find_by_email($email=""){
+		$result_array = self::find_by_sql("SELECT * FROM ".self::$table_name." WHERE Email_Usuario='{$email}' LIMIT 1 ");
 		return $result_array;
 	}
 	
-	public static function find_by_tipo($tipo="") {
-		$result_array = self::find_by_sql("SELECT * FROM ".self::$table_name." WHERE Tipo_Usuario='{$tipo}' ");
+	public static function find_by_login($login="") {
+		$result_array = self::find_by_sql("SELECT * FROM ".self::$table_name." WHERE CodigoAcesso_Usuario='{$login}' LIMIT 1 ");
 		return $result_array;
 	}
 
@@ -234,7 +296,7 @@ public static function profile($id){
 			}
 		$sql = "UPDATE ".self::$table_name." SET ";
 		$sql .= join(" , ",$attributes_pairs);
-		$sql .= " WHERE ID_Usuario=$this->id" ;
+		$sql .= " WHERE ID_Usuario=$this->ID_Usuario" ;
 		if(!$database->query($sql)) {
 			echo mysql_error();
 			}
@@ -242,7 +304,7 @@ public static function profile($id){
 
 	public function delete() {
 		global $database;
-		$sql = "DELETE FROM ".self::$table_name." WHERE ID_Usuario=$this->id";
+		$sql = "DELETE FROM ".self::$table_name." WHERE ID_Usuario=$this->ID_Usuario";
 		if(!$database->query($sql)) {
 			echo mysql_error();
 			}

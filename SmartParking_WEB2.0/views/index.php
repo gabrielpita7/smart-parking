@@ -10,7 +10,7 @@
                     </div>
                     <div class="panel-body">
                     <?php                         
-                      if(isset($_POST['username'])){                        
+                      if($_SERVER['REQUEST_METHOD'] == 'POST'){                        
                         require_once("../models/user.php");
                         $senha =mysql_real_escape_string ($_POST['password']);
                         $user = mysql_real_escape_string ($_POST['username']);                        
@@ -26,7 +26,7 @@
                             }
                             header ("location: ../views/home.php");
                             exit();
-                            //echo"<meta http-equiv='refresh' content='0;URL=../view/adminHome.php'>";
+                            //echo"<meta http-equiv='refresh' content='0;URL=../view/adminHome'>";
                         }
                         else {
                             $_SESSION['mensagem'] = true;
@@ -64,7 +64,7 @@
                           </div>                                            
                         <div class="col-lg-5 font-12 control-label">
                           
-                                Esqueci Minha Senha
+                                <a href="esqueci-senha">Esqueci Minha Senha</a>
                              
                         </div>
                     </div>                                                                         
