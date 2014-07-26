@@ -36,6 +36,7 @@ public class LoginUsuario extends javax.swing.JFrame {
     public LoginUsuario() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.buscarTotaisVagas();
     }
     
     /**
@@ -118,6 +119,30 @@ public class LoginUsuario extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(ControleVagas.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+        }
+    }
+    
+    private void buscarTotaisVagas(){
+        try {
+            conexaoBanco = new ConexaoBanco();
+            statement = conexaoBanco.conexao.createStatement();
+            result = statement.executeQuery("SELECT * FROM Vagas");
+
+            if (result.next()){
+                Constantes.totalVagas = result.getInt("Total_Vagas");
+                Constantes.totalVagasDeficientes = result.getInt("Total_Preferencial_Vagas");
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(LoginUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        finally{
+            try {
+                if (statement.isClosed()){
+                    statement.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

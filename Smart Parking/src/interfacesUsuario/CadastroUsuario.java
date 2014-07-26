@@ -8,10 +8,12 @@ import bancoDeDados.ConexaoBanco;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.InputMismatchException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.ControleVagas;
+import usoGeral.Constantes;
 
 /**
  * @author Smart Parking
@@ -29,6 +31,9 @@ public class CadastroUsuario extends javax.swing.JFrame {
     public CadastroUsuario() {
         initComponents();
         this.setLocationRelativeTo(null);
+        if (Constantes.tipoManutencaoUsuario == 1){
+            this.preencherTela();
+        }
     }
     
     private void limparCampos (){
@@ -61,6 +66,8 @@ public class CadastroUsuario extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         Senha = new javax.swing.JPasswordField();
         CPF = new javax.swing.JFormattedTextField();
+        jLabel6 = new javax.swing.JLabel();
+        Email = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Cadastro de Usuário");
@@ -118,6 +125,13 @@ public class CadastroUsuario extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        CPF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                CPFFocusLost(evt);
+            }
+        });
+
+        jLabel6.setText("E-mail");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -125,20 +139,8 @@ public class CadastroUsuario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
-                        .addGap(81, 81, 81))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -146,16 +148,31 @@ public class CadastroUsuario extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(Matricula, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)))
-                    .addComponent(Nome, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(Curso, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(TemDeficiencia)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Estudante)))
+                    .addComponent(Nome)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Curso, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Senha)))
+                        .addComponent(Senha))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addGap(81, 81, 81))
+                    .addComponent(Email, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel6)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(TemDeficiencia)
+                                .addGap(18, 18, 18)
+                                .addComponent(Estudante)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -178,14 +195,18 @@ public class CadastroUsuario extends javax.swing.JFrame {
                             .addComponent(Matricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Curso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TemDeficiencia)
                     .addComponent(Estudante))
@@ -193,7 +214,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {Confirmar, Voltar});
@@ -229,9 +250,16 @@ public class CadastroUsuario extends javax.swing.JFrame {
         this.retornarTela();
     }//GEN-LAST:event_VoltarMouseClicked
 
+    private void CPFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_CPFFocusLost
+        if (!(this.validarCPF(CPF.getText().trim()))){
+            JOptionPane.showMessageDialog(null,"CPF inválido.");
+            CPF.setText("");
+        }
+    }//GEN-LAST:event_CPFFocusLost
+
     private void retornarTela(){
-        Administracao administracao = new Administracao();
-        administracao.show();
+        BuscarUsuarios buscarUsuarios = new BuscarUsuarios();
+        buscarUsuarios.show();
         this.dispose();
     }
     
@@ -256,8 +284,14 @@ public class CadastroUsuario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Favor preencher o código de acesso do usuário.");
             return false;
         }
-        if ("".equals(Senha.getText().trim())){
-            JOptionPane.showMessageDialog(null,"Favor preencher a senha do usuário.");
+        if (Constantes.tipoManutencaoUsuario != 1){
+            if ("".equals(Senha.getText().trim())){
+                JOptionPane.showMessageDialog(null,"Favor preencher a senha do usuário.");
+                return false;
+            }
+        }
+        if ("".equals(Email.getText().trim())){
+            JOptionPane.showMessageDialog(null,"Favor preencher o E-mail do usuário.");
             return false;
         }
         
@@ -307,7 +341,12 @@ public class CadastroUsuario extends javax.swing.JFrame {
                     update = update + "Tipo_Usuario = 'F', ";
                 }
                 update = update + "Cargo_Usuario = '" + Curso.getText() + "', ";
-                update = update + "Senha_Usuario = '" + Senha.getText() + "' ";
+                
+                if (Constantes.tipoManutencaoUsuario != 1){
+                    update = update + "Senha_Usuario = '" + Senha.getText() + "' ";
+                }
+                
+                update = update + "Email_Usuario = '" + Email.getText() + "' ";
                 update = update + "WHERE CodigoAcesso_Usuario = " + Matricula.getText();
                 int updateStatement = statement.executeUpdate(update);
                 if (updateStatement > 0){
@@ -317,7 +356,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
             }
             else{
                 insert = "INSERT INTO estacionamento.usuarios(Nome_Usuario, CPF_Usuario, CodigoAcesso_Usuario,";
-                insert = insert + " Deficiente_Usuario, Tipo_Usuario, Cargo_Usuario, Senha_Usuario, CodigoVaga_Usuario) VALUES (";
+                insert = insert + " Deficiente_Usuario, Tipo_Usuario, Cargo_Usuario, Senha_Usuario, Email_Usuario, CodigoVaga_Usuario) VALUES (";
                 insert = insert + "'" + Nome.getText() + "', ";
                 insert = insert + "'" + CPF.getText() + "', ";
                 insert = insert + Matricula.getText() + ", ";
@@ -335,6 +374,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
                 }
                 insert = insert + "'" + Curso.getText() + "', ";
                 insert = insert + "'" + Senha.getText() + "', ";
+                insert = insert + "'" + Email.getText() + "', ";
                 insert = insert + "' ')";
                 int updateStatement = statement.executeUpdate(insert);
                 if (updateStatement > 0){
@@ -358,10 +398,111 @@ public class CadastroUsuario extends javax.swing.JFrame {
         }
     }
     
+    private boolean validarCPF(String CPF) { 
+
+        char dig10, dig11; 
+        int sm, i, r, num, peso;
+        
+        CPF = CPF.replace(".", "");
+        CPF = CPF.replace("-", "");
+
+        if (CPF.equals("00000000000") || CPF.equals("11111111111") || 
+            CPF.equals("22222222222") || CPF.equals("33333333333") || 
+            CPF.equals("44444444444") || CPF.equals("55555555555") || 
+            CPF.equals("66666666666") || CPF.equals("77777777777") || 
+            CPF.equals("88888888888") || CPF.equals("99999999999") || (CPF.length() != 11)) 
+            return(false);  
+
+        try 
+        {
+            sm = 0; 
+            peso = 10; 
+
+            for (i=0; i<9; i++) 
+            {
+                num = (int)(CPF.charAt(i) - 48); 
+                sm = sm + (num * peso); 
+                peso = peso - 1; 
+            }
+
+            r = 11 - (sm % 11); 
+            if ((r == 10) || (r == 11)) 
+                dig10 = '0'; 
+            else 
+                dig10 = (char)(r + 48);
+
+            sm = 0; 
+            peso = 11; 
+
+            for(i=0; i<10; i++) 
+            { 
+                num = (int)(CPF.charAt(i) - 48); 
+                sm = sm + (num * peso); 
+                peso = peso - 1; 
+            }
+
+            r = 11 - (sm % 11); 
+            if ((r == 10) || (r == 11)) 
+                dig11 = '0'; 
+            else 
+                dig11 = (char)(r + 48);
+
+            if ((dig10 == CPF.charAt(9)) && (dig11 == CPF.charAt(10))) 
+                return(true); 
+            else 
+                return(false); 
+        } 
+
+        catch (InputMismatchException erro) 
+        { 
+                return(false); 
+        } 
+    }
+    
+    private void preencherTela(){
+        try {
+            conexaoBanco = new ConexaoBanco();
+            statement = conexaoBanco.conexao.createStatement();
+            result = statement.executeQuery("SELECT * FROM Usuarios where Nome_Usuario = '" + Constantes.usuarioManutencao + "'");
+            
+            if (result.next()){
+                this.Nome.setText(result.getString("Nome_Usuario"));
+                this.CPF.setText(result.getString("CPF_Usuario"));
+                this.Matricula.setText(result.getString("CodigoAcesso_Usuario"));
+                this.Curso.setText(result.getString("Cargo_Usuario"));
+                this.Email.setText(result.getString("Email_Usuario"));
+                
+                if(result.getString("Deficiente_Usuario").equals("N"))
+                    this.TemDeficiencia.setSelected(false);
+                else
+                    this.TemDeficiencia.setSelected(true);
+                
+                if(result.getString("Tipo_Usuario").equals("E"))
+                    this.Estudante.setSelected(false);
+                else
+                    this.Estudante.setSelected(true);
+                
+                this.Senha.enable(false);
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(HistoricoUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        finally{
+            try {
+                if (statement.isClosed()){
+                    statement.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(HistoricoUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField CPF;
     private javax.swing.JButton Confirmar;
     private javax.swing.JTextField Curso;
+    private javax.swing.JTextField Email;
     private javax.swing.JCheckBox Estudante;
     private javax.swing.JTextField Matricula;
     private javax.swing.JTextField Nome;
@@ -373,5 +514,6 @@ public class CadastroUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 }

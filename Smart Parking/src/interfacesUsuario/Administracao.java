@@ -4,7 +4,13 @@
  */
 package interfacesUsuario;
 
+import bancoDeDados.ConexaoBanco;
 import executor.LoginUsuario;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import usoGeral.Constantes;
 
@@ -14,22 +20,15 @@ import usoGeral.Constantes;
  */
 public class Administracao extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Adiministracao
-     */
+    private ConexaoBanco conexaoBanco;
+    private Statement statement;
+    private ResultSet result;
+    
     public Administracao() {
         try{
-            String vagasOcupadas, vagasRestantes, vagasPreferenciais;
-            
             initComponents();
-            
-            vagasOcupadas = String.valueOf(Constantes.numeroVagasOcupadas + Constantes.numeroVagasOcupadasDeficientes);
-            vagasRestantes = String.valueOf(Constantes.totalVagas - Integer.parseInt(vagasOcupadas.toString()));
-            vagasPreferenciais = String.valueOf(Constantes.numeroVagasOcupadasDeficientes);
-            VagasOcupadas.setText(vagasOcupadas);
-            VagasRestantes.setText(vagasRestantes);
-            Preferencial.setText(vagasPreferenciais);
             this.setLocationRelativeTo(null);
+            this.buscarTotais();
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(null,"Erro no construtor Administracao. " + e.getMessage());
@@ -55,14 +54,16 @@ public class Administracao extends javax.swing.JFrame {
         Preferencial = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         Vagas = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        PrefOcupadas = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Administração");
         setResizable(false);
 
-        jLabel1.setText("Estacionados");
+        jLabel1.setText("Total Estacionados");
 
-        jLabel2.setText("Restantes");
+        jLabel2.setText("Vagas Restantes");
 
         VagasOcupadas.setEditable(false);
 
@@ -80,7 +81,7 @@ public class Administracao extends javax.swing.JFrame {
             }
         });
 
-        Historico.setText("Histórico");
+        Historico.setText("Histórico Vagas");
         Historico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 HistoricoMouseClicked(evt);
@@ -92,10 +93,15 @@ public class Administracao extends javax.swing.JFrame {
             }
         });
 
-        CadastrarUsuario.setText("Usuário");
+        CadastrarUsuario.setText("Usuários");
         CadastrarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 CadastrarUsuarioMouseClicked(evt);
+            }
+        });
+        CadastrarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CadastrarUsuarioActionPerformed(evt);
             }
         });
         CadastrarUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -106,7 +112,7 @@ public class Administracao extends javax.swing.JFrame {
 
         Preferencial.setEditable(false);
 
-        jLabel3.setText("Preferenciais");
+        jLabel3.setText("Total Preferenciais");
 
         Vagas.setText("Vagas");
         Vagas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -120,6 +126,10 @@ public class Administracao extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Prefer. Ocupadas");
+
+        PrefOcupadas.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -127,32 +137,36 @@ public class Administracao extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel2)
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel3)
+                        .addGap(11, 11, 11)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Vagas, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CadastrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Historico, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(VagasOcupadas, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(VagasRestantes))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(Preferencial, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                                .addComponent(Vagas, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(CadastrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Historico, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(VagasOcupadas)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(VagasRestantes, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Preferencial)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(PrefOcupadas, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 12, Short.MAX_VALUE))))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {CadastrarUsuario, Historico, Vagas});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {PrefOcupadas, Preferencial, VagasOcupadas, VagasRestantes});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,19 +175,21 @@ public class Administracao extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(VagasOcupadas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(VagasRestantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PrefOcupadas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Preferencial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Voltar)
                     .addComponent(Historico)
                     .addComponent(CadastrarUsuario)
                     .addComponent(Vagas))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -218,11 +234,15 @@ public class Administracao extends javax.swing.JFrame {
     private void VagasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VagasMouseClicked
         this.chamarManutencaoVagas();
     }//GEN-LAST:event_VagasMouseClicked
+
+    private void CadastrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastrarUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CadastrarUsuarioActionPerformed
     
     private void chamarHistorico (){
-        TipoHistorico tipoHistorico = new TipoHistorico();
-        tipoHistorico.show();
-        this.dispose();  
+        Estacionamento estacionamento = new Estacionamento();
+        estacionamento.show();
+        this.dispose();   
     }
     
     private void retornarLogin (){
@@ -232,8 +252,8 @@ public class Administracao extends javax.swing.JFrame {
     }
     
     private void chamarCadastroUsuario (){
-        CadastroUsuario cadastroUsuario = new CadastroUsuario();
-        cadastroUsuario.show();
+        BuscarUsuarios buscarUsuario = new BuscarUsuarios();
+        buscarUsuario.show();
         this.dispose();  
     }
     
@@ -243,9 +263,50 @@ public class Administracao extends javax.swing.JFrame {
         this.dispose();  
     }
     
+    private void buscarTotais (){
+        int totalEstacionados = 0;
+        int totalPreferenciais = 0;
+        
+        try {
+            conexaoBanco = new ConexaoBanco();
+            statement = conexaoBanco.conexao.createStatement();
+            result = statement.executeQuery("select * from usuarios where CodigoVaga_Usuario <> ' '");
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Administracao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            while (result.next()){
+                totalEstacionados++;
+                if (result.getString("Deficiente_Usuario").equals("S"))
+                    totalPreferenciais++;
+            }
+            
+            VagasOcupadas.setText(String.valueOf(totalEstacionados));
+            VagasRestantes.setText(String.valueOf(Constantes.totalVagas - totalEstacionados));
+            Preferencial.setText(String.valueOf(Constantes.totalVagasDeficientes));
+            PrefOcupadas.setText(String.valueOf(totalPreferenciais));
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Administracao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null,"Ocoreu um problema na verificação dos totais!" + e.getMessage());
+        }
+        finally{
+            try {
+                if (!statement.isClosed()){
+                    statement.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Administracao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CadastrarUsuario;
     private javax.swing.JButton Historico;
+    private javax.swing.JTextField PrefOcupadas;
     private javax.swing.JTextField Preferencial;
     private javax.swing.JButton Vagas;
     private javax.swing.JTextField VagasOcupadas;
@@ -254,5 +315,6 @@ public class Administracao extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }

@@ -97,6 +97,8 @@ public class ControleVagas {
             update = "UPDATE usuarios SET CodigoVaga_Usuario = ' ' WHERE CodigoVaga_Usuario = '" + codigoVaga + "' and CodigoAcesso_Usuario = " + Constantes.usuario.getCodigoMatricula();
             int updateStatement = statement.executeUpdate(update);
             if (updateStatement > 0){
+                this.gravarSaida(Constantes.usuarioAtivo, codigoVaga);
+                
                 if (Constantes.usuarioDeficiente){
                     ControleVagas.decrementaVagaDeficiente();
                 }
@@ -146,6 +148,30 @@ public class ControleVagas {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ControleVagas.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,"Erro ao gravar histórico. \n" + ex.getMessage());
+        }
+    }
+    
+    private void gravarSaida (String nomeUsuario, String codigoVaga){
+        String update;
+        
+        Date data = new Date(System.currentTimeMillis());
+        SimpleDateFormat dataAtual = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat horaAtual = new SimpleDateFormat("HH:mm:ss");
+        
+        try {
+            conexaoBanco = new ConexaoBanco();
+            statement = conexaoBanco.conexao.createStatement();
+            update = "UPDATE historico SET horario_saida_historico = '" + horaAtual.format(data) +"'";
+            update = update + " WHERE nomeUsuario_historico = '" + nomeUsuario + "' ";
+            update = update + " AND data_historico = '" + dataAtual.format(data) + "' ";
+            update = update + " AND CodigoVaga_historico = '" + codigoVaga + "' ";
+            int updateStatement = statement.executeUpdate(update);
+            if (updateStatement > 0){
+
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ControleVagas.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,"Erro ao gravar saída do histórico. \n" + ex.getMessage());
         }
     }
     

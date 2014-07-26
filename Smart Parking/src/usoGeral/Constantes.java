@@ -13,8 +13,8 @@ import model.UsuarioEstacionamento;
  */
 public final class Constantes {
     public static String usuarioAtivo;
-    public static final int totalVagas = 9;
-    public static final int totalVagasDeficientes = 2;
+    public static int totalVagas;
+    public static int totalVagasDeficientes;
     public static int numeroVagasOcupadasDeficientes;
     public static int numeroVagasOcupadas;
     public static int idUsuario;
@@ -27,6 +27,8 @@ public final class Constantes {
     public static int vagasHorizontais;
     public static int vagasVerticais;
     public static int vagasPreferenciais;
+    public static int tipoManutencaoUsuario;
+    public static String usuarioManutencao;
     
     public static String formatarCodigoVaga(int tamanho, String valor){
         // Formatar o código da vaga => ex: 0102

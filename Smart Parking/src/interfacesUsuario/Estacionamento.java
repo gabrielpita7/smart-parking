@@ -82,12 +82,6 @@ public class Estacionamento extends JPanel {
                 }
             }
         }
-                
-        //String[] columns = {"SETOR 1", "SETOR 2", "SETOR 3"};
-
-        /*String[][] data = {{"PREFERENCIAL", "PREFERENCIAL", "DISPONIVEL"},
-            {"DISPONIVEL", "DISPONIVEL", "DISPONIVEL"},
-            {"DISPONIVEL", "DISPONIVEL", "DISPONIVEL"}};*/
 
         gridVagas = new JTable(data, columns) {
             public boolean isCellEditable(int data, int columns) {
@@ -344,7 +338,7 @@ public class Estacionamento extends JPanel {
             Logger.getLogger(LoginUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (Exception e){
-            JOptionPane.showMessageDialog(null,"Ocoreu um problema no método preencherVagasResiduais. " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Ocoreu um problema no método buscarDimensões. " + e.getMessage());
         }
         finally{
             try {
