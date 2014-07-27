@@ -69,7 +69,7 @@ public class ControleVagas {
             
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ControleVagas.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,"Erro no update do código da vaga. \n" + ex.getMessage());
+            JOptionPane.showMessageDialog(null,"Erro no update do código da vaga. \n" + ex.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);
         } catch (BarcodeException ex) {
             Logger.getLogger(ControleVagas.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -109,7 +109,7 @@ public class ControleVagas {
             
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ControleVagas.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,"Erro ao remover vaga. \n" + ex.getMessage());
+            JOptionPane.showMessageDialog(null,"Erro ao remover vaga. \n" + ex.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);
         }
         finally{
             try {
@@ -147,7 +147,7 @@ public class ControleVagas {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ControleVagas.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,"Erro ao gravar histórico. \n" + ex.getMessage());
+            JOptionPane.showMessageDialog(null,"Erro ao gravar histórico. \n" + ex.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -171,7 +171,7 @@ public class ControleVagas {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ControleVagas.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,"Erro ao gravar saída do histórico. \n" + ex.getMessage());
+            JOptionPane.showMessageDialog(null,"Erro ao gravar saída do histórico. \n" + ex.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -214,7 +214,7 @@ public class ControleVagas {
                 }
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Problemas ao verificar lotação. " + ex.getMessage());
+            JOptionPane.showMessageDialog(null,"Problemas ao verificar lotação. " + ex.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);
         }
         finally{
             try {
@@ -249,7 +249,7 @@ public class ControleVagas {
             File arquivo = new File("codigoVaga" + codigoVaga + ".png");
             BarcodeImageHandler.savePNG(codigoBarras, arquivo);
         } catch (Exception  e) {
-            JOptionPane.showMessageDialog(null,"Erro ao gerar código de barras.");
+            JOptionPane.showMessageDialog(null,"Erro ao gerar código de barras.", "Estacionamento", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -269,11 +269,11 @@ public class ControleVagas {
                 Constantes.filaEstacionamento.offer(usuario);
             }
             else{
-                JOptionPane.showMessageDialog(null,"Esta usuário já se encontra na fila de espera.");
+                JOptionPane.showMessageDialog(null,"Esta usuário já se encontra na fila de espera.", "Estacionamento", JOptionPane.INFORMATION_MESSAGE);
             }
         }
         catch (Exception e){
-            JOptionPane.showMessageDialog(null,"Problemas ao inserir usuário na fila. " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Problemas ao inserir usuário na fila. " + e.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -288,7 +288,7 @@ public class ControleVagas {
             }
         }
         catch (Exception e){
-            JOptionPane.showMessageDialog(null,"Problemas ao remover usuário na fila. " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Problemas ao remover usuário na fila. " + e.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -307,7 +307,7 @@ public class ControleVagas {
             }
         }
         catch (Exception e){
-            JOptionPane.showMessageDialog(null,"Problemas ao verificar usuário na fila. " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Problemas ao verificar usuário na fila. " + e.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);
         }
         return true;
     }

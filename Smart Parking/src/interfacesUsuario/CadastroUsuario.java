@@ -252,7 +252,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
 
     private void CPFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_CPFFocusLost
         if (!(this.validarCPF(CPF.getText().trim()))){
-            JOptionPane.showMessageDialog(null,"CPF inválido.");
+            JOptionPane.showMessageDialog(null,"CPF inválido.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
             CPF.setText("");
         }
     }//GEN-LAST:event_CPFFocusLost
@@ -269,29 +269,29 @@ public class CadastroUsuario extends javax.swing.JFrame {
      */
     private boolean validaGravacao(){
         if ("".equals(Nome.getText().trim())){
-            JOptionPane.showMessageDialog(null,"Favor preencher o nome do usuário.");
+            JOptionPane.showMessageDialog(null,"Favor preencher o nome do usuário.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         if ("".equals(CPF.getText().trim())){
-            JOptionPane.showMessageDialog(null,"Favor preencher o CPF do usuário.");
+            JOptionPane.showMessageDialog(null,"Favor preencher o CPF do usuário.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         if ("".equals(Curso.getText().trim())){
-            JOptionPane.showMessageDialog(null,"Favor preencher o curso do usuário.");
+            JOptionPane.showMessageDialog(null,"Favor preencher o curso do usuário.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         if ("".equals(Matricula.getText().trim())){
-            JOptionPane.showMessageDialog(null,"Favor preencher o código de acesso do usuário.");
+            JOptionPane.showMessageDialog(null,"Favor preencher o código de acesso do usuário.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         if (Constantes.tipoManutencaoUsuario != 1){
             if ("".equals(Senha.getText().trim())){
-                JOptionPane.showMessageDialog(null,"Favor preencher a senha do usuário.");
+                JOptionPane.showMessageDialog(null,"Favor preencher a senha do usuário.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
                 return false;
             }
         }
         if ("".equals(Email.getText().trim())){
-            JOptionPane.showMessageDialog(null,"Favor preencher o E-mail do usuário.");
+            JOptionPane.showMessageDialog(null,"Favor preencher o E-mail do usuário.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         
@@ -299,13 +299,13 @@ public class CadastroUsuario extends javax.swing.JFrame {
            long teste = Long.parseLong(Matricula.getText());
         }
         catch (NumberFormatException e){
-            JOptionPane.showMessageDialog(null,"Favor digitar uma numeração válida para o código de acesso.");
+            JOptionPane.showMessageDialog(null,"Favor digitar uma numeração válida para o código de acesso.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         
         String matricula = Matricula.getText().trim();
         if (matricula.length() > 8){
-            JOptionPane.showMessageDialog(null,"A matrícula deve possuir no máximo 8 caracteres.");
+            JOptionPane.showMessageDialog(null,"A matrícula deve possuir no máximo 8 caracteres.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         
@@ -378,14 +378,14 @@ public class CadastroUsuario extends javax.swing.JFrame {
                 insert = insert + "' ')";
                 int updateStatement = statement.executeUpdate(insert);
                 if (updateStatement > 0){
-                    JOptionPane.showMessageDialog(null,"Usuario Cadastrado com Sucesso!");
+                    JOptionPane.showMessageDialog(null,"Usuario Cadastrado com Sucesso!", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
                     this.retornarTela();
                 }  
             }
             
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ControleVagas.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,"Erro ao inserir/alterar usuario. \n" + ex.getMessage());
+            JOptionPane.showMessageDialog(null,"Erro ao inserir/alterar usuario. \n" + ex.getMessage(), "Cadastro", JOptionPane.ERROR_MESSAGE);
         }
         finally{
             try {

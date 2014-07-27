@@ -129,7 +129,7 @@ public class Estacionamento extends JPanel {
                 }
                 else{
                     if ("INDISPONIVEL".equals(gridVagas.getValueAt(linha, coluna).toString())){
-                        JOptionPane.showMessageDialog(null, "Vaga já preenchida!");
+                        JOptionPane.showMessageDialog(null, "Vaga já preenchida!", "Estacionamento", JOptionPane.INFORMATION_MESSAGE);
                     }
                     else{
                         if (Constantes.usuarioDeficiente){
@@ -137,7 +137,7 @@ public class Estacionamento extends JPanel {
                         }
                         else{
                             if ("PREFERENCIAL".equals(gridVagas.getValueAt(linha, coluna).toString())){
-                                JOptionPane.showMessageDialog(null, "Vaga reservada para deficientes. Favor escolher outra vaga!");
+                                JOptionPane.showMessageDialog(null, "Vaga reservada para deficientes. Favor escolher outra vaga!", "Estacionamento", JOptionPane.INFORMATION_MESSAGE);
                             }
                             else{
                                 estacionar(linhaFormat + colunaFormat);
@@ -229,7 +229,7 @@ public class Estacionamento extends JPanel {
             
         } 
         catch (DocumentException | IOException e){
-            JOptionPane.showMessageDialog(null,"Ocoreu um problema na geração do histórico. " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Ocoreu um problema na geração do histórico. " + e.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Estacionamento.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -254,12 +254,12 @@ public class Estacionamento extends JPanel {
                     File arquivoHistorico = new File(nomeArquivo); 
                     Desktop.getDesktop().open(arquivoHistorico);
                 } catch(Exception e) {   
-                  JOptionPane.showMessageDialog(null, "Problemas ao abrir arquivo. " + e.getMessage());  
+                  JOptionPane.showMessageDialog(null, "Problemas ao abrir arquivo. " + e.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);  
                 } 
     
             }
             catch (IOException e){
-                JOptionPane.showMessageDialog(null,"Erro ao fechar arquivo.");
+                JOptionPane.showMessageDialog(null,"Erro ao fechar arquivo.", "Estacionamento", JOptionPane.ERROR_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(Estacionamento.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -307,7 +307,7 @@ public class Estacionamento extends JPanel {
             Logger.getLogger(LoginUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (Exception e){
-            JOptionPane.showMessageDialog(null,"Ocoreu um problema no método preencherVagasResiduais. " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Ocoreu um problema no método preencherVagasResiduais. " + e.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);
         }
         finally{
             try {
@@ -338,7 +338,7 @@ public class Estacionamento extends JPanel {
             Logger.getLogger(LoginUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (Exception e){
-            JOptionPane.showMessageDialog(null,"Ocoreu um problema no método buscarDimensões. " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Ocoreu um problema no método buscarDimensões. " + e.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);
         }
         finally{
             try {

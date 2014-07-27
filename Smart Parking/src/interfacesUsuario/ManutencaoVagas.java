@@ -185,7 +185,7 @@ public class ManutencaoVagas extends javax.swing.JFrame {
                     update = update + " WHERE ID_Vagas = 1";
                     int updateStatement = statement.executeUpdate(update);
                     if (updateStatement > 0){
-                        JOptionPane.showMessageDialog(null,"Vagas Alteradas com Sucesso!");
+                        JOptionPane.showMessageDialog(null,"Vagas Alteradas com Sucesso!", "Vagas", JOptionPane.INFORMATION_MESSAGE);
                         Constantes.vagasHorizontais = horizontal;
                         Constantes.vagasVerticais = vertical;
                         Constantes.vagasPreferenciais = preferencial;
@@ -202,7 +202,7 @@ public class ManutencaoVagas extends javax.swing.JFrame {
                     insert = insert + preferencial + ")";
                     int updateStatement = statement.executeUpdate(insert);
                     if (updateStatement > 0){
-                        JOptionPane.showMessageDialog(null,"Vagas Cadastradas com Sucesso!");
+                        JOptionPane.showMessageDialog(null,"Vagas Cadastradas com Sucesso!", "Vagas", JOptionPane.INFORMATION_MESSAGE);
                         Constantes.vagasHorizontais = horizontal;
                         Constantes.vagasVerticais = vertical;
                         Constantes.vagasPreferenciais = preferencial;
@@ -213,7 +213,7 @@ public class ManutencaoVagas extends javax.swing.JFrame {
 
             } catch (ClassNotFoundException | SQLException ex) {
                 Logger.getLogger(ControleVagas.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(null,"Erro ao inserir/alterar usuario. \n" + ex.getMessage());
+                JOptionPane.showMessageDialog(null,"Erro ao inserir/alterar Vagas. \n" + ex.getMessage(), "Vagas", JOptionPane.ERROR_MESSAGE);
             }
             finally{
                 try {
@@ -236,12 +236,12 @@ public class ManutencaoVagas extends javax.swing.JFrame {
            long teste3 = Long.parseLong(Vagas_Preferenciais.getText());
         }
         catch (NumberFormatException e){
-            JOptionPane.showMessageDialog(null,"Favor digitar uma numeração válida para os campos.");
+            JOptionPane.showMessageDialog(null,"Favor digitar uma numeração válida para os campos.", "Vagas", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         
         if ("".equals(Vagas_Horizontal.getText().trim()) || "".equals(Vagas_Vertical.getText().trim()) || "".equals(Vagas_Preferenciais.getText().trim()) ){
-            JOptionPane.showMessageDialog(null,"Favor preencher todos os campos.");
+            JOptionPane.showMessageDialog(null,"Favor preencher todos os campos.", "Vagas", JOptionPane.INFORMATION_MESSAGE);
             validar = false;
         }
         

@@ -222,7 +222,7 @@ public class HistoricoUsuario extends javax.swing.JFrame {
             
         } 
         catch (DocumentException | IOException e){
-            JOptionPane.showMessageDialog(null,"Ocoreu um problema na geração do histórico por Usuário. " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Ocoreu um problema na geração do histórico por Usuário. " + e.getMessage(), "Relatório", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Estacionamento.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -247,12 +247,12 @@ public class HistoricoUsuario extends javax.swing.JFrame {
                     File arquivoHistorico = new File(nomeArquivo); 
                     Desktop.getDesktop().open(arquivoHistorico);
                 } catch(Exception e) {   
-                  JOptionPane.showMessageDialog(null, "Problemas ao abrir arquivo. " + e.getMessage());  
+                  JOptionPane.showMessageDialog(null, "Problemas ao abrir arquivo. " + e.getMessage(), "Estacionamento", JOptionPane.ERROR_MESSAGE);  
                 } 
                 
             }
             catch (IOException e){
-                JOptionPane.showMessageDialog(null,"Erro ao fechar arquivo.");
+                JOptionPane.showMessageDialog(null,"Erro ao fechar arquivo.", "Estacionamento", JOptionPane.ERROR_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(Estacionamento.class.getName()).log(Level.SEVERE, null, ex);
             }

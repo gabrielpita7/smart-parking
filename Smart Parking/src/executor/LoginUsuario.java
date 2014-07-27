@@ -58,7 +58,7 @@ public class LoginUsuario extends javax.swing.JFrame {
             }
         }
         catch (Exception e){
-            JOptionPane.showMessageDialog(null,"Erro ao verificar Administrador. " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Erro ao verificar Administrador. " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         
         if (!Constantes.adminAtivo){
@@ -101,11 +101,11 @@ public class LoginUsuario extends javax.swing.JFrame {
                     }
                 }
                 else{
-                    JOptionPane.showMessageDialog(null,"Usuário não cadastrado!");
+                    JOptionPane.showMessageDialog(null,"Usuário não cadastrado!", "Login", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
             catch (NumberFormatException | HeadlessException e){
-                JOptionPane.showMessageDialog(null,"A matrícula recebe um numérico.");
+                JOptionPane.showMessageDialog(null,"A matrícula recebe um numérico.", "Login", JOptionPane.ERROR_MESSAGE);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(LoginUsuario.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

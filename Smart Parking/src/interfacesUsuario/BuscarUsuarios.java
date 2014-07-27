@@ -337,7 +337,7 @@ public class BuscarUsuarios extends javax.swing.JFrame {
     
     private boolean validarUsuario(){
         if (this.usuario.equals("")){
-            JOptionPane.showMessageDialog(null,"Selecione um usuário.");
+            JOptionPane.showMessageDialog(null,"Selecione um usuário.", "Usuários", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         else
@@ -348,7 +348,7 @@ public class BuscarUsuarios extends javax.swing.JFrame {
         int confirmacao;
         
         if (this.validarUsuario()){
-            confirmacao = JOptionPane.showConfirmDialog(null, "Você confirma a exclusão do usuário " + usuario + "?", "Exclusão", 1);
+            confirmacao = JOptionPane.showConfirmDialog(null, "Você confirma a exclusão do usuário " + usuario + "?", "Exclusão", JOptionPane.QUESTION_MESSAGE);
             if (confirmacao == 0){
                 try {
                     conexaoBanco = new ConexaoBanco();
@@ -356,7 +356,7 @@ public class BuscarUsuarios extends javax.swing.JFrame {
 
                     int deletar = statement.executeUpdate("delete from usuarios where Nome_Usuario = '" + this.usuario + "'");
                     if (deletar > 0){
-                        JOptionPane.showMessageDialog(null,"Usuario Removido com Sucesso!");
+                        JOptionPane.showMessageDialog(null,"Usuario Removido com Sucesso!", "Usuários", JOptionPane.INFORMATION_MESSAGE);
                         this.retornarTela();
                     } 
                 } catch (ClassNotFoundException | SQLException ex) {
@@ -439,7 +439,7 @@ public class BuscarUsuarios extends javax.swing.JFrame {
             
         } 
         catch (DocumentException | IOException e){
-            JOptionPane.showMessageDialog(null,"Ocoreu um problema na geração do histórico por Usuário. " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Ocoreu um problema na geração do histórico por Usuário. " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Estacionamento.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -464,12 +464,12 @@ public class BuscarUsuarios extends javax.swing.JFrame {
                     File arquivoHistorico = new File(nomeArquivo); 
                     Desktop.getDesktop().open(arquivoHistorico);
                 } catch(Exception e) {   
-                  JOptionPane.showMessageDialog(null, "Problemas ao abrir arquivo. " + e.getMessage());  
+                  JOptionPane.showMessageDialog(null, "Problemas ao abrir arquivo. " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);  
                 } 
                 
             }
             catch (IOException e){
-                JOptionPane.showMessageDialog(null,"Erro ao fechar arquivo.");
+                JOptionPane.showMessageDialog(null,"Erro ao fechar arquivo.", "Erro", JOptionPane.ERROR_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(Estacionamento.class.getName()).log(Level.SEVERE, null, ex);
             }
