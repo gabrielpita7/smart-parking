@@ -304,8 +304,34 @@ public class CadastroUsuario extends javax.swing.JFrame {
         }
         
         String matricula = Matricula.getText().trim();
-        if (matricula.length() > 8){
-            JOptionPane.showMessageDialog(null,"A matrícula deve possuir no máximo 8 caracteres.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
+        if (matricula.length() != 9){
+            JOptionPane.showMessageDialog(null,"A matrícula deve possuir 9 caracteres.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        
+        if (Constantes.tipoManutencaoUsuario != 1){
+            String senha = Senha.getText().trim();
+            if (senha.length() != 6){
+                JOptionPane.showMessageDialog(null,"A senha deve possuir 6 caracteres.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
+                return false;
+            }
+        }
+        
+        String nome = Nome.getText().trim();
+        if (nome.length() > 50){
+            JOptionPane.showMessageDialog(null,"O nome deve possuir no máximo 50 caracteres.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        
+        String curso = Curso.getText().trim();
+        if (curso.length() > 40){
+            JOptionPane.showMessageDialog(null,"O curso/cargo deve possuir no máximo 40 caracteres.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        
+        String email = Email.getText().trim();
+        if (email.length() > 50){
+            JOptionPane.showMessageDialog(null,"O e-mail deve possuir no máximo 50 caracteres.", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         
@@ -472,15 +498,15 @@ public class CadastroUsuario extends javax.swing.JFrame {
                 this.Curso.setText(result.getString("Cargo_Usuario"));
                 this.Email.setText(result.getString("Email_Usuario"));
                 
-                if(result.getString("Deficiente_Usuario").equals("N"))
+                if(result.getString("Deficiente_Usuario").trim().equals("N"))
                     this.TemDeficiencia.setSelected(false);
                 else
                     this.TemDeficiencia.setSelected(true);
                 
-                if(result.getString("Tipo_Usuario").equals("E"))
-                    this.Estudante.setSelected(false);
-                else
+                if(result.getString("Tipo_Usuario").trim().equals("E"))
                     this.Estudante.setSelected(true);
+                else
+                    this.Estudante.setSelected(false);
                 
                 this.Senha.enable(false);
             }

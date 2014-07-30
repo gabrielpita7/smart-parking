@@ -157,7 +157,7 @@ public class ManutencaoVagas extends javax.swing.JFrame {
     private void buscarDados (){
         this.Vagas_Horizontal.setText(Integer.toString(Constantes.vagasHorizontais)); 
         this.Vagas_Vertical.setText(Integer.toString(Constantes.vagasVerticais));
-        this.Vagas_Preferenciais.setText(Integer.toString(Constantes.vagasPreferenciais));
+        this.Vagas_Preferenciais.setText(Integer.toString(Constantes.totalVagasDeficientes));
     }
     
     private void gravarDados (){

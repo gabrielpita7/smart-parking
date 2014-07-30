@@ -88,7 +88,7 @@ public class LoginUsuario extends javax.swing.JFrame {
                             this.dispose();
                         }
                         else{
-                            JOptionPane.showMessageDialog(null,"Estacionamento lotado. \n Será enviado um SMS informando quando uma vaga estará disponível.", "Lotado!", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null,"Estacionamento lotado. \n Favor voltar mais tarde.", "Lotado!", JOptionPane.INFORMATION_MESSAGE);
                             ControleVagas controleVagas = new ControleVagas();
                             controleVagas.inserirNaFila(Constantes.usuario);
                             Matricula.setText("");
@@ -132,6 +132,8 @@ public class LoginUsuario extends javax.swing.JFrame {
             if (result.next()){
                 Constantes.totalVagas = result.getInt("Total_Vagas");
                 Constantes.totalVagasDeficientes = result.getInt("Total_Preferencial_Vagas");
+                Constantes.vagasHorizontais = result.getInt("Largura_Vagas");
+                Constantes.vagasVerticais = result.getInt("Altura_Vagas");
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LoginUsuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,6 +147,20 @@ public class LoginUsuario extends javax.swing.JFrame {
                 Logger.getLogger(LoginUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    private boolean validarCampos (){
+        if (Matricula.getText().toString().length() > 9){
+            JOptionPane.showMessageDialog(null,"A matícula recebe até 9 caracteres!", "Login", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        
+        if (Senha.getText().toString().length() > 6){
+            JOptionPane.showMessageDialog(null,"A senha recebe até 6 caracteres!", "Login", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        
+        return true;
     }
 
     /**
@@ -168,7 +184,7 @@ public class LoginUsuario extends javax.swing.JFrame {
 
         Matricula.setToolTipText("Digite seu código de matrícula/acesso.");
 
-        jLabel1.setText("Matrícula/Código de Acesso");
+        jLabel1.setText("Login");
 
         jLabel3.setText("Senha");
 
@@ -226,12 +242,16 @@ public class LoginUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConfirmarMouseClicked
-        validarBotaoConfirmar();
+        if (this.validarCampos()){
+            validarBotaoConfirmar();
+        }
     }//GEN-LAST:event_ConfirmarMouseClicked
 
     private void ConfirmarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ConfirmarKeyPressed
         if (evt.getKeyCode() == 10){
-            validarBotaoConfirmar();
+            if (this.validarCampos()){
+                validarBotaoConfirmar();
+            }
         }
     }//GEN-LAST:event_ConfirmarKeyPressed
     

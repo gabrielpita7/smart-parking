@@ -19,8 +19,8 @@ public final class Constantes {
     public static int numeroVagasOcupadas;
     public static int idUsuario;
     public static UsuarioEstacionamento usuario;
-    public static final String codigoAdm = "121314";
-    public static final String senhaAdm = "321";
+    public static final String codigoAdm = "987654321";
+    public static final String senhaAdm = "ufba12";
     public static boolean adminAtivo;
     public static boolean usuarioDeficiente;
     public static final LinkedList<UsuarioEstacionamento> filaEstacionamento = new LinkedList<>();

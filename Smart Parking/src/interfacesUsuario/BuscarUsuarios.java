@@ -348,7 +348,7 @@ public class BuscarUsuarios extends javax.swing.JFrame {
         int confirmacao;
         
         if (this.validarUsuario()){
-            confirmacao = JOptionPane.showConfirmDialog(null, "Você confirma a exclusão do usuário " + usuario + "?", "Exclusão", JOptionPane.QUESTION_MESSAGE);
+            confirmacao = JOptionPane.showConfirmDialog(null, "Você confirma a exclusão do usuário " + usuario + "?", "Exclusão", JOptionPane.YES_NO_CANCEL_OPTION);
             if (confirmacao == 0){
                 try {
                     conexaoBanco = new ConexaoBanco();
